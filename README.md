@@ -2,12 +2,11 @@
 
 This package provides a means to validate text inputs on the flutter and was inspired by Yup
 
-* [how to use](#general-info)
-
 ### how to use
 import Validatorless
 
-```TextFormField(
+```
+TextFormField(
   decoration: InputDecoration(
     labelText: 'User e-mail',
   ),
