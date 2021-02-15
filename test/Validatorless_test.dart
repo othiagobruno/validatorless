@@ -4,7 +4,6 @@ import 'package:validatorless/validatorless.dart';
 
 void main() {
   test('validate values', () {
-    final validate = Validatorless();
-    return validate;
+    Validatorless();
   });
 }

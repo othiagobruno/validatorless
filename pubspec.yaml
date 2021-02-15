@@ -1,6 +1,6 @@
 name: validatorless
-description: Validate fields
-version: 0.0.1
+description: This package provides a means to validate text inputs on the flutter and was inspired by Yup
+version: 0.0.3
 author: Thiago
 homepage: https://github.com/othiagobruno/validatorless
 

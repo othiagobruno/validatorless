@@ -2,6 +2,8 @@
 library validatorless;
 
 import 'package:flutter/widgets.dart' show FormFieldValidator;
+import 'package:validatorless/cnpj.dart';
+import 'package:validatorless/cpf.dart';
 
 class Validatorless {
   // Validatorless.require('filed is required')
@@ -49,6 +51,28 @@ class Validatorless {
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
       if (emailRegex.hasMatch(v)) return null;
       return m;
+    };
+  }
+
+  // Validatorless.cpf('This CPF is not valid')
+  static FormFieldValidator<String> cpf(String m) {
+    return (v) {
+      if (v.isEmpty) return null;
+      if (CpfValidator.isValid(v))
+        return null;
+      else
+        return m;
+    };
+  }
+
+  // Validatorless.cnpj('This CNPJ is not valid')
+  static FormFieldValidator<String> cnpj(String m) {
+    return (v) {
+      if (v.isEmpty) return null;
+      if (CNPJValidator.isValid(v))
+        return null;
+      else
+        return m;
     };
   }
 

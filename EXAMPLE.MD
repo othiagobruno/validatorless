@@ -17,7 +17,7 @@ TextFormField(
     labelText: 'User e-mail',
   ),
   validator: Validatorless.multiple([
-     Validatorless.email('The field must be an email'),
+     Validatorless.email('The field must be an email')
      Validatorless.required('The field is obligatory')
    ]),
 )
@@ -41,7 +41,7 @@ TextFormField(
  Validatorless.email(String)
  Validatorless.min(Number, String)
  Validatorless.max(Number, String)
- Validatorless.number(String)
+ Validatorless.number(String) 
  Validatorless.cpf(String) 
  Validatorless.cnpj(String) 
 ```
