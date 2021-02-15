@@ -1,7 +1,7 @@
-name: Validatorless
+name: validatorless
 description: Validate fields
 version: 0.0.1
-author: Thiago Bruno Miranda Teixeira Nunes
+author: Thiago
 homepage: https://github.com/othiagobruno/validatorless
 
 environment:
@@ -15,4 +15,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 flutter:

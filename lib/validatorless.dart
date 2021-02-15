@@ -1,3 +1,4 @@
+// ignore: library_names
 library validatorless;
 
 import 'package:flutter/widgets.dart' show FormFieldValidator;

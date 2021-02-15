@@ -1,3 +1,2 @@
-## [0.0.1] - TODO: Add release date.
-
-* TODO: Describe initial release.
+## [0.0.1] - Init package.
+This package provides a means to validate text inputs on the flutter and was inspired by Yup
