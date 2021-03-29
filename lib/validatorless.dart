@@ -9,7 +9,7 @@ class Validatorless {
   // Validatorless.require('filed is required')
   static FormFieldValidator required(String m) {
     return (v) {
-      if (v.isEmpty) return m;
+      if (v?.isEmpty ?? true) return m;
       return null;
     };
   }
@@ -17,8 +17,8 @@ class Validatorless {
   // Validatorless.min(4, 'field min 4')
   static FormFieldValidator<String> min(double min, String m) {
     return (v) {
-      if (v.isEmpty) return null;
-      if (v.length < min) return m;
+      if (v?.isEmpty ?? true) return null;
+      if ((v?.length ?? 0) < min) return m;
       return null;
     };
   }
@@ -26,8 +26,8 @@ class Validatorless {
   // Validatorless.max(4, 'field max 4')
   static FormFieldValidator<String> max(double max, String m) {
     return (v) {
-      if (v.isEmpty) return null;
-      if (v.length > max) return m;
+      if (v?.isEmpty ?? true) return null;
+      if ((v?.length ?? 0) > max) return m;
       return null;
     };
   }
@@ -35,8 +35,8 @@ class Validatorless {
   // Validatorless.number('Value not a number')
   static FormFieldValidator<String> number(String m) {
     return (v) {
-      if (v.isEmpty) return null;
-      if (double.parse(v, (e) => null) != null)
+      if (v?.isEmpty ?? true) return null;
+      if (double.tryParse(v!) != null)
         return null;
       else
         return m;
@@ -46,10 +46,10 @@ class Validatorless {
   // Validatorless.email('Value is not email')
   static FormFieldValidator<String> email(String m) {
     return (v) {
-      if (v.isEmpty) return null;
+      if (v?.isEmpty ?? true) return null;
       final emailRegex = RegExp(
           r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-      if (emailRegex.hasMatch(v)) return null;
+      if (emailRegex.hasMatch(v!)) return null;
       return m;
     };
   }
@@ -57,8 +57,8 @@ class Validatorless {
   // Validatorless.cpf('This CPF is not valid')
   static FormFieldValidator<String> cpf(String m) {
     return (v) {
-      if (v.isEmpty) return null;
-      if (CpfValidator.isValid(v))
+      if (v?.isEmpty ?? true) return null;
+      if (CpfValidator.isValid(v!))
         return null;
       else
         return m;
@@ -68,8 +68,8 @@ class Validatorless {
   // Validatorless.cnpj('This CNPJ is not valid')
   static FormFieldValidator<String> cnpj(String m) {
     return (v) {
-      if (v.isEmpty) return null;
-      if (CNPJValidator.isValid(v))
+      if (v?.isEmpty ?? true) return null;
+      if (CNPJValidator.isValid(v!))
         return null;
       else
         return m;

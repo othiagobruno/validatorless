@@ -28,7 +28,6 @@ class CNPJValidator {
 
   static String strip(String cnpj) {
     RegExp regex = RegExp(STRIP_REGEX);
-    cnpj = cnpj == null ? "" : cnpj;
     return cnpj.replaceAll(regex, "");
   }
 
@@ -36,7 +35,7 @@ class CNPJValidator {
     if (stripBeforeValidation) {
       cnpj = strip(cnpj);
     }
-    if (cnpj == null || cnpj.isEmpty) {
+    if (cnpj.isEmpty) {
       return false;
     }
     if (cnpj.length != 14) {
