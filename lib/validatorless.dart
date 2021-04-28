@@ -6,6 +6,7 @@ import 'package:validatorless/cnpj.dart';
 import 'package:validatorless/cpf.dart';
 
 class Validatorless {
+  Validatorless._();
   // Validatorless.require('filed is required')
   static FormFieldValidator required(String m) {
     return (v) {
