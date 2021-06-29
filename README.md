@@ -41,6 +41,7 @@ TextFormField(
  Validatorless.email(String)
  Validatorless.min(Number, String)
  Validatorless.max(Number, String)
+ Validatorless.between(Number, Number, String)
  Validatorless.number(String)
  Validatorless.cpf(String) 
  Validatorless.cnpj(String) 
