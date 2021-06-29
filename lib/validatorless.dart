@@ -91,4 +91,14 @@ class Validatorless {
       return null;
     };
   }
+
+  static FormFieldValidator<String> date(String errorMessage) {
+    return (value) {
+      final date = DateTime.tryParse(value ?? '');
+      if (date == null) {
+        return errorMessage;
+      }
+      return null;
+    };
+  }
 }
