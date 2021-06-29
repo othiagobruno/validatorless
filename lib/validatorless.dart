@@ -36,7 +36,11 @@ class Validatorless {
   /// Validates if the field has at least `minimumLength` and at most `maximumLength`
   /// 
   /// e.g.: Validatorless.between(6, 10, 'password must have between 6 and 10 digits')
-  static FormFieldValidator<String> between(double minimumLength, double maximumLength, String errorMessage,) {
+  static FormFieldValidator<String> between(
+    double minimumLength, 
+    double maximumLength, 
+    String errorMessage,
+  ) {
     assert(minimumLength < maximumLength);
     return multiple([
       min(minimumLength, errorMessage), 
