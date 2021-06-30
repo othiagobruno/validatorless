@@ -16,7 +16,7 @@ class Validatorless {
   }
 
   // Validatorless.min(4, 'field min 4')
-  static FormFieldValidator<String> min(double min, String m) {
+  static FormFieldValidator<String> min(int min, String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
       if ((v?.length ?? 0) < min) return m;
@@ -25,7 +25,7 @@ class Validatorless {
   }
 
   // Validatorless.max(4, 'field max 4')
-  static FormFieldValidator<String> max(double max, String m) {
+  static FormFieldValidator<String> max(int max, String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
       if ((v?.length ?? 0) > max) return m;
@@ -34,16 +34,16 @@ class Validatorless {
   }
 
   /// Validates if the field has at least `minimumLength` and at most `maximumLength`
-  /// 
+  ///
   /// e.g.: Validatorless.between(6, 10, 'password must have between 6 and 10 digits')
   static FormFieldValidator<String> between(
-    double minimumLength, 
-    double maximumLength, 
+    int minimumLength,
+    int maximumLength,
     String errorMessage,
   ) {
     assert(minimumLength < maximumLength);
     return multiple([
-      min(minimumLength, errorMessage), 
+      min(minimumLength, errorMessage),
       max(maximumLength, errorMessage),
     ]);
   }
@@ -108,7 +108,7 @@ class Validatorless {
   }
 
   /// Validates if the field has a valid date according to `DateTime.tryParse`
-  /// 
+  ///
   /// e.g.: Validatorless.date('invalid date')
   static FormFieldValidator<String> date(String errorMessage) {
     return (value) {
