@@ -1,4 +1,5 @@
 # Validatorless
+![Pub Version](https://img.shields.io/pub/v/validatorless?style=flat-square)
 
 This package provides a means to validate text inputs on the flutter and was inspired by Yup
 
