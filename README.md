@@ -44,4 +44,5 @@ TextFormField(
  Validatorless.number(String)
  Validatorless.cpf(String) 
  Validatorless.cnpj(String) 
+ Validatorless.date(String) 
 ```

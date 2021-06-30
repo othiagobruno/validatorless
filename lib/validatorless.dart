@@ -91,4 +91,17 @@ class Validatorless {
       return null;
     };
   }
+
+  /// Validates if the field has a valid date according to `DateTime.tryParse`
+  /// 
+  /// e.g.: Validatorless.date('invalid date')
+  static FormFieldValidator<String> date(String errorMessage) {
+    return (value) {
+      final date = DateTime.tryParse(value ?? '');
+      if (date == null) {
+        return errorMessage;
+      }
+      return null;
+    };
+  }
 }
