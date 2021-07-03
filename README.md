@@ -40,9 +40,9 @@ TextFormField(
 ```dart
  Validatorless.required(String)
  Validatorless.email(String)
- Validatorless.min(Number, String)
- Validatorless.max(Number, String)
- Validatorless.between(Number, Number, String)
+ Validatorless.min(int, String)
+ Validatorless.max(int, String)
+ Validatorless.between(int, int, String)
  Validatorless.number(String)
  Validatorless.cpf(String) 
  Validatorless.cnpj(String) 
