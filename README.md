@@ -47,4 +47,5 @@ TextFormField(
  Validatorless.cpf(String) 
  Validatorless.cnpj(String) 
  Validatorless.date(String) 
+ Validatorless.compare(TextEditingController, String)
 ```

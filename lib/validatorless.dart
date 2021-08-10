@@ -1,12 +1,14 @@
 // ignore: library_names
 library validatorless;
 
-import 'package:flutter/widgets.dart' show FormFieldValidator;
+import 'package:flutter/widgets.dart'
+    show FormFieldValidator, TextEditingController;
 import 'package:validatorless/cnpj.dart';
 import 'package:validatorless/cpf.dart';
 
 class Validatorless {
   Validatorless._();
+
   // Validatorless.require('filed is required')
   static FormFieldValidator required(String m) {
     return (v) {
@@ -115,6 +117,19 @@ class Validatorless {
       final date = DateTime.tryParse(value ?? '');
       if (date == null) {
         return errorMessage;
+      }
+      return null;
+    };
+  }
+
+  // Compare two values using desired input controller
+  /// e.g.: Validatorless.compare(inputController, 'Passwords do not match')
+  static FormFieldValidator<String> compare(
+      TextEditingController? controller, String message) {
+    return (value) {
+      final textCompare = controller?.text ?? '';
+      if (value == null || textCompare != value) {
+        return message;
       }
       return null;
     };

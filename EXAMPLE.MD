@@ -43,5 +43,6 @@ TextFormField(
  Validatorless.max(Number, String)
  Validatorless.number(String) 
  Validatorless.cpf(String) 
- Validatorless.cnpj(String) 
+ Validatorless.cnpj(String)
+ Validatorless.compare(TextEditingController, String)
 ```
