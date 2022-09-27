@@ -17,6 +17,25 @@ class Validatorless {
     };
   }
 
+  // Validatorless.numbersBetweenInterval(min, max, 'enter a value between min and max')
+  static FormFieldValidator numbersBetweenInterval(
+      String message, double min, double max) {
+    return (v) {
+      if (v?.isEmpty ?? true) return message;
+      if (double.tryParse(v) == null) return message;
+      if (double.parse(v) < min || double.parse(v) > max) return message;
+      return null;
+    };
+  }
+
+  // Validatorless.onlyCharacters('only characters')
+  static FormFieldValidator onlyCharacters(String message) {
+    return (v) {
+      if (RegExp(r'^[a-zA-Z]+$').hasMatch(v)) return null;
+      return message;
+    };
+  }
+
   // Validatorless.min(4, 'field min 4')
   static FormFieldValidator<String> min(int min, String m) {
     return (v) {
