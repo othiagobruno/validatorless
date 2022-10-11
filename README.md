@@ -1,4 +1,5 @@
 # Validatorless
+
 ![Pub Version](https://img.shields.io/pub/v/validatorless?style=flat-square)
 
 This package provides a means to validate text inputs on the flutter and was inspired by Yup
@@ -26,6 +27,7 @@ TextFormField(
 ```
 
 or use
+
 ```dart
 TextFormField(
   decoration: InputDecoration(
@@ -35,17 +37,20 @@ TextFormField(
 )
 ```
 
-### Validatorless functions 
+### Validatorless options
 
 ```dart
- Validatorless.required(String)
- Validatorless.email(String)
- Validatorless.min(int, String)
- Validatorless.max(int, String)
- Validatorless.between(int, int, String)
- Validatorless.number(String)
- Validatorless.cpf(String) 
- Validatorless.cnpj(String) 
- Validatorless.date(String) 
- Validatorless.compare(TextEditingController, String)
+  Validatorless.required(String)
+  Validatorless.email(String)
+  Validatorless.min(int, String)
+  Validatorless.max(int, String)
+  Validatorless.between(int, int, String)
+  Validatorless.number(String)
+  Validatorless.cpf(String)
+  Validatorless.cnpj(String)
+  Validatorless.date(String)
+  Validatorless.compare(TextEditingController, String)
+  Validatorless.numbersBetweenInterval(Double, Double, String)
+  Validatorless.onlyCharacters(String)
+  Validatorless.regex(RegExp, String)
 ```
