@@ -9,7 +9,9 @@ import 'package:validatorless/cpf.dart';
 class Validatorless {
   Validatorless._();
 
-  // Validatorless.require('filed is required')
+  /// ```dart
+  ///  Validatorless.required('filed is required')
+  /// ```
   static FormFieldValidator required(String m) {
     return (v) {
       if (v?.isEmpty ?? true) return m;
@@ -17,9 +19,14 @@ class Validatorless {
     };
   }
 
-  // Validatorless.numbersBetweenInterval(min, max, 'enter a value between min and max')
+  /// ```dart
+  ///  Validatorless.numbersBetweenInterval(1, 10, 'enter a value between min and max')
+  /// ```
   static FormFieldValidator numbersBetweenInterval(
-      String message, double min, double max) {
+    double min,
+    double max,
+    String message,
+  ) {
     return (v) {
       if (v?.isEmpty ?? true) return message;
       if (double.tryParse(v) == null) return message;
@@ -28,7 +35,19 @@ class Validatorless {
     };
   }
 
-  // Validatorless.onlyCharacters('only characters')
+  /// ```dart
+  ///  Validatorless.regex(RegExp(r'^[a-zA-Z]+$'), 'only letters')
+  /// ```
+  static FormFieldValidator regex(RegExp reg, String message) {
+    return (v) {
+      if (reg.hasMatch(v)) return null;
+      return message;
+    };
+  }
+
+  /// ```dart
+  ///  Validatorless.onlyCharacters('only characters')
+  /// ```
   static FormFieldValidator onlyCharacters(String message) {
     return (v) {
       if (RegExp(r'^[a-zA-Z]+$').hasMatch(v)) return null;
@@ -36,7 +55,9 @@ class Validatorless {
     };
   }
 
-  // Validatorless.min(4, 'field min 4')
+  /// ```dart
+  ///  Validatorless.min(4, 'field min 4')
+  /// ```
   static FormFieldValidator<String> min(int min, String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -45,7 +66,9 @@ class Validatorless {
     };
   }
 
-  // Validatorless.max(4, 'field max 4')
+  /// ```dart
+  /// Validatorless.max(4, 'field max 4')
+  /// ```
   static FormFieldValidator<String> max(int max, String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -54,9 +77,9 @@ class Validatorless {
     };
   }
 
-  /// Validates if the field has at least `minimumLength` and at most `maximumLength`
-  ///
-  /// e.g.: Validatorless.between(6, 10, 'password must have between 6 and 10 digits')
+  /// ```dart
+  /// Validatorless.between(6, 10, 'password must have between 6 and 10 digits')
+  /// ```
   static FormFieldValidator<String> between(
     int minimumLength,
     int maximumLength,
@@ -69,7 +92,9 @@ class Validatorless {
     ]);
   }
 
-  // Validatorless.number('Value not a number')
+  /// ```dart
+  ///  Validatorless.number('Value not a number')
+  /// ```
   static FormFieldValidator<String> number(String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -80,7 +105,9 @@ class Validatorless {
     };
   }
 
-  // Validatorless.email('Value is not email')
+  /// ```dart
+  ///  Validatorless.email('Value is not email')
+  /// ```
   static FormFieldValidator<String> email(String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -91,7 +118,9 @@ class Validatorless {
     };
   }
 
-  // Validatorless.cpf('This CPF is not valid')
+  /// ```dart
+  ///  Validatorless.cpf('This CPF is not valid')
+  /// ```
   static FormFieldValidator<String> cpf(String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -102,7 +131,9 @@ class Validatorless {
     };
   }
 
-  // Validatorless.cnpj('This CNPJ is not valid')
+  /// ```dart
+  ///  Validatorless.cnpj('This CNPJ is not valid')
+  /// ```
   static FormFieldValidator<String> cnpj(String m) {
     return (v) {
       if (v?.isEmpty ?? true) return null;
@@ -113,10 +144,12 @@ class Validatorless {
     };
   }
 
-  // Validatorless.multiple([
-  //   Validatorless.email('Value is not email')
-  //   Validatorless.max(4, 'field max 4')
-  // ])
+  /// ```dart
+  ///  Validatorless.multiple([
+  ///    Validatorless.email('Value is not email')
+  ///    Validatorless.max(4, 'field max 4')
+  ///  ])
+  /// ```
   static FormFieldValidator<String> multiple(
       List<FormFieldValidator<String>> v) {
     return (value) {
@@ -128,9 +161,9 @@ class Validatorless {
     };
   }
 
-  /// Validates if the field has a valid date according to `DateTime.tryParse`
-  ///
-  /// e.g.: Validatorless.date('invalid date')
+  /// ```dart
+  /// Validatorless.date('invalid date')
+  /// ```
   static FormFieldValidator<String> date(String errorMessage) {
     return (value) {
       final date = DateTime.tryParse(value ?? '');
@@ -141,8 +174,9 @@ class Validatorless {
     };
   }
 
-  // Compare two values using desired input controller
-  /// e.g.: Validatorless.compare(inputController, 'Passwords do not match')
+  /// ```dart
+  /// Validatorless.compare(inputController, 'Passwords do not match')
+  /// ```
   static FormFieldValidator<String> compare(
       TextEditingController? controller, String message) {
     return (value) {

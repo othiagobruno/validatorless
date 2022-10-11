@@ -1,7 +1,14 @@
 ## [0.0.1] - Init package.
+
 This package provides a means to validate text inputs on the flutter and was inspired by Yup
 
+## [1.2.0] - Add new options to validate
 
-## [1.2.0] - Add new options to validate 
-* Add betweeen
-* Add date
+- Add betweeen
+- Add date
+
+## [1.2.2] - Add new options to validate
+
+- Add numbersBetweenInterval
+- Add onlyCharacters
+- Add regex

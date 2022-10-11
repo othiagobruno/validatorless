@@ -24,25 +24,29 @@ TextFormField(
 ```
 
 or use
+
 ```
 TextFormField(
   decoration: InputDecoration(
     labelText: 'CPF',
   ),
-  validator: 
+  validator:
      Validatorless.cpf('CPF not is valid'),
 )
 ```
 
-### Validatorless functions 
+### Validatorless functions
 
 ```sh
- Validatorless.required(String)
- Validatorless.email(String)
- Validatorless.min(Number, String)
- Validatorless.max(Number, String)
- Validatorless.number(String) 
- Validatorless.cpf(String) 
- Validatorless.cnpj(String)
- Validatorless.compare(TextEditingController, String)
+  Validatorless.required(String)
+  Validatorless.email(String)
+  Validatorless.min(Number, String)
+  Validatorless.max(Number, String)
+  Validatorless.number(String)
+  Validatorless.cpf(String)
+  Validatorless.cnpj(String)
+  Validatorless.compare(TextEditingController, String)
+  Validatorless.numbersBetweenInterval(Double, Double, String)
+  Validatorless.onlyCharacters(String)
+  Validatorless.regex(RegExp, String)
 ```
