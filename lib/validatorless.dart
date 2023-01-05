@@ -187,4 +187,15 @@ class Validatorless {
       return null;
     };
   }
+
+  /// ```dart
+  ///  Validatorless.length(4, 'field must have 4 characters')
+  /// ```
+  static FormFieldValidator<String> length(int length, String m) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      if ((v?.length ?? 0) != length) return m;
+      return null;
+    };
+  }
 }
