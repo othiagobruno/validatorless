@@ -125,9 +125,10 @@ class Validatorless {
     return (v) {
       if (v?.isEmpty ?? true) return null;
 
+      const int cpfMaxLength = 11;
       final strippedValue = CNPJValidator.strip(v!);
 
-      if(strippedValue.length <= 11) {
+      if(strippedValue.length <= cpfMaxLength) {
         if (CpfValidator.isValid(v!))
           return null;
         else
