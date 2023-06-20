@@ -125,7 +125,7 @@ class Validatorless {
     return (v) {
       if (v?.isEmpty ?? true) return null;
 
-      final strippedValue = CnpjValidator.strip(v!);
+      final strippedValue = CNPJValidator.strip(v!);
 
       if(strippedValue.length <= 11) {
         if (CpfValidator.isValid(v!))
