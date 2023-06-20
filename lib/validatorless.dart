@@ -119,6 +119,29 @@ class Validatorless {
   }
 
   /// ```dart
+  ///  Validatorless.cpfOrCnpj('This CPF is not valid', 'This CNPJ is not valid')
+  /// ```
+  static FormFieldValidator<String> cpfOrCnpj(String mCpf, String mCnpj) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+
+      final strippedValue = CnpjValidator.strip(v!);
+
+      if(strippedValue.length <= 11) {
+        if (CpfValidator.isValid(v!))
+          return null;
+        else
+          return mCpf;
+      } else {
+          if (CNPJValidator.isValid(v!))
+            return null;
+          else
+            return mCnpj;
+      }
+    };
+  }
+
+  /// ```dart
   ///  Validatorless.cpf('This CPF is not valid')
   /// ```
   static FormFieldValidator<String> cpf(String m) {
