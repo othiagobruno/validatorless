@@ -67,6 +67,21 @@ class Validatorless {
   }
 
   /// ```dart
+  ///  Validatorless.numberLessThan(10, 'enter a value less than 10')
+  /// ```
+  static FormFieldValidator numbersGreaterThan(
+    double min,
+    String message,
+  ) {
+    return (v) {
+      if (v?.isEmpty ?? true) return message;
+      if (double.tryParse(v) == null) return message;
+      if (double.parse(v) <= min) return message;
+      return null;
+    };
+  }
+
+  /// ```dart
   ///  Validatorless.regex(RegExp(r'^[a-zA-Z]+$'), 'only letters')
   /// ```
   static FormFieldValidator regex(RegExp reg, String message) {
