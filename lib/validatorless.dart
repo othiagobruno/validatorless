@@ -36,6 +36,22 @@ class Validatorless {
   }
 
   /// ```dart
+  ///  Validatorless.numbersBetweenInterval(1, 10, 'enter a value between min and max not included')
+  /// ```
+  static FormFieldValidator numbersBetweenIntervalNotIncluded(
+    double min,
+    double max,
+    String message,
+  ) {
+    return (v) {
+      if (v?.isEmpty ?? true) return message;
+      if (double.tryParse(v) == null) return message;
+      if (double.parse(v) <= min || double.parse(v) >= max) return message;
+      return null;
+    };
+  }
+
+  /// ```dart
   ///  Validatorless.regex(RegExp(r'^[a-zA-Z]+$'), 'only letters')
   /// ```
   static FormFieldValidator regex(RegExp reg, String message) {
@@ -128,16 +144,16 @@ class Validatorless {
       const int cpfMaxLength = 11;
       final strippedValue = CNPJValidator.strip(v!);
 
-      if(strippedValue.length <= cpfMaxLength) {
+      if (strippedValue.length <= cpfMaxLength) {
         if (CpfValidator.isValid(v!))
           return null;
         else
           return mCpf;
       } else {
-          if (CNPJValidator.isValid(v!))
-            return null;
-          else
-            return mCnpj;
+        if (CNPJValidator.isValid(v!))
+          return null;
+        else
+          return mCnpj;
       }
     };
   }
