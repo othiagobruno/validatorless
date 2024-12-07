@@ -40,6 +40,7 @@ TextFormField(
 ### Validatorless options
 
 ```dart
+  Validatorless.multiple(List<Validatorless>)
   Validatorless.required(String)
   Validatorless.email(String)
   Validatorless.min(int, String)
@@ -53,4 +54,6 @@ TextFormField(
   Validatorless.numbersBetweenInterval(Double, Double, String)
   Validatorless.onlyCharacters(String)
   Validatorless.regex(RegExp, String)
+  Validatorless.length(int, String)
+  Validatorless.phone(String)
 ```

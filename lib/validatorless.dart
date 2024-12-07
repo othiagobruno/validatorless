@@ -128,16 +128,16 @@ class Validatorless {
       const int cpfMaxLength = 11;
       final strippedValue = CNPJValidator.strip(v!);
 
-      if(strippedValue.length <= cpfMaxLength) {
-        if (CpfValidator.isValid(v!))
+      if (strippedValue.length <= cpfMaxLength) {
+        if (CpfValidator.isValid(v))
           return null;
         else
           return mCpf;
       } else {
-          if (CNPJValidator.isValid(v!))
-            return null;
-          else
-            return mCnpj;
+        if (CNPJValidator.isValid(v))
+          return null;
+        else
+          return mCnpj;
       }
     };
   }
@@ -219,6 +219,23 @@ class Validatorless {
     return (v) {
       if (v?.isEmpty ?? true) return null;
       if ((v?.length ?? 0) != length) return m;
+      return null;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.phone('invalid phone')
+  /// ```
+  /// The phone number must be in the format (99) 99999-9999
+  static FormFieldValidator<String> phone(String errorMessage) {
+    return (value) {
+      if (value == null) {
+        return errorMessage;
+      }
+      final regPhone = RegExp(r'^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$');
+      if (!regPhone.hasMatch(value)) {
+        return errorMessage;
+      }
       return null;
     };
   }
