@@ -12,3 +12,12 @@ This package provides a means to validate text inputs on the flutter and was ins
 - Add numbersBetweenInterval
 - Add onlyCharacters
 - Add regex
+
+## [1.2.5] - Add new validation options and documentation updates
+
+- Add length validation
+- Add phone validation
+- Add between validation
+- Add cpfOrCnpj validation
+- Add date validation
+- Update documentation with all available validators
