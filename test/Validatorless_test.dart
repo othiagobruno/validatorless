@@ -87,6 +87,32 @@ void main() {
     });
   });
 
+  group('phone', () {
+    test('accepts Brazilian mobile and landline formats', () {
+      final validator = Validatorless.phone('invalid phone');
+      expect(validator('(11) 98765-4321'), isNull);
+      expect(validator('(21) 99999-9999'), isNull);
+      expect(validator('(11) 3456-7890'), isNull);
+      expect(validator('(85) 3210-1234'), isNull);
+    });
+
+    test('rejects invalid numbers and formats', () {
+      final expectedError = 'invalid phone';
+      final validator = Validatorless.phone(expectedError);
+      expect(validator('(11) 9876-54321'), expectedError);
+      expect(validator('(11) 987654-321'), expectedError);
+      expect(validator('(11)98765-4321'), expectedError);
+      expect(validator('11 98765-4321'), expectedError);
+      expect(validator('(01) 98765-4321'), expectedError);
+      expect(validator('(11) 98765-432'), expectedError);
+      expect(validator('(11) 98765-43210'), expectedError);
+      expect(validator('11987654321'), expectedError);
+      expect(validator('not a phone'), expectedError);
+      expect(validator(''), expectedError);
+      expect(validator(null), expectedError);
+    });
+  });
+
   group('cep', () {
     test('accepts CEP with and without hyphen', () {
       final validator = Validatorless.cep('invalid CEP');
