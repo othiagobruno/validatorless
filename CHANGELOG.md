@@ -29,3 +29,7 @@ This package provides a means to validate text inputs on the flutter and was ins
 - Add strongPassword validation
 - Add creditCard validation (Luhn)
 - Add placa validation (Brazilian vehicle plate, old and Mercosul)
+
+## [1.3.1] - Patch release
+
+- ci: add automated version bump and pub.dev publish on master
