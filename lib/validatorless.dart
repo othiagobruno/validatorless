@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart'
     show FormFieldValidator, TextEditingController;
 import 'package:validatorless/cnpj.dart';
 import 'package:validatorless/cpf.dart';
+import 'package:validatorless/credit_card.dart';
 
 class Validatorless {
   Validatorless._();
@@ -237,6 +238,85 @@ class Validatorless {
         return errorMessage;
       }
       return null;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.cep('This CEP is not valid')
+  /// ```
+  /// Accepts Brazilian postal codes with or without hyphen (12345678 / 12345-678).
+  static FormFieldValidator<String> cep(String m) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      final cepRegex = RegExp(r'^\d{5}-?\d{3}$');
+      if (cepRegex.hasMatch(v!)) return null;
+      return m;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.url('This URL is not valid')
+  /// ```
+  /// Accepts HTTP and HTTPS URLs with a host (e.g. https://flutter.dev).
+  static FormFieldValidator<String> url(String m) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      final uri = Uri.tryParse(v!);
+      if (uri == null) return m;
+      if (uri.scheme != 'http' && uri.scheme != 'https') return m;
+      if (uri.host.isEmpty) return m;
+      return null;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.strongPassword('Password is too weak')
+  /// Validatorless.strongPassword('Password is too weak', minLength: 10)
+  /// ```
+  /// Requires at least [minLength] characters (default 8), one uppercase
+  /// letter, one number and one special character.
+  static FormFieldValidator<String> strongPassword(
+    String m, {
+    int minLength = 8,
+  }) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      if (v!.length < minLength) return m;
+      if (!RegExp(r'[A-Z]').hasMatch(v)) return m;
+      if (!RegExp(r'[0-9]').hasMatch(v)) return m;
+      if (!RegExp(r'[^A-Za-z0-9]').hasMatch(v)) return m;
+      return null;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.creditCard('This credit card is not valid')
+  /// ```
+  /// Validates card numbers with Luhn check and length between 13 and 19 digits.
+  static FormFieldValidator<String> creditCard(String m) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      if (CreditCardValidator.isValid(v!))
+        return null;
+      else
+        return m;
+    };
+  }
+
+  /// ```dart
+  /// Validatorless.placa('This plate is not valid')
+  /// ```
+  /// Accepts the old Brazilian format (ABC1234 / ABC-1234) and the Mercosul
+  /// format (ABC1D23 / ABC-1D23).
+  static FormFieldValidator<String> placa(String m) {
+    return (v) {
+      if (v?.isEmpty ?? true) return null;
+      final normalized = v!.replaceAll(RegExp(r'\s'), '').toUpperCase();
+      final oldFormat = RegExp(r'^[A-Z]{3}-?\d{4}$');
+      final mercosulFormat = RegExp(r'^[A-Z]{3}-?\d[A-Z]\d{2}$');
+      if (oldFormat.hasMatch(normalized) || mercosulFormat.hasMatch(normalized))
+        return null;
+      return m;
     };
   }
 }

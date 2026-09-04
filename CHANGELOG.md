@@ -21,3 +21,11 @@ This package provides a means to validate text inputs on the flutter and was ins
 - Add cpfOrCnpj validation
 - Add date validation
 - Update documentation with all available validators
+
+## [1.3.0] - Add new validation options
+
+- Add cep validation (Brazilian postal code)
+- Add url validation (HTTP/HTTPS)
+- Add strongPassword validation
+- Add creditCard validation (Luhn)
+- Add placa validation (Brazilian vehicle plate, old and Mercosul)

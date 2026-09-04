@@ -86,4 +86,141 @@ void main() {
       });
     });
   });
+
+  group('cep', () {
+    test('accepts CEP with and without hyphen', () {
+      final validator = Validatorless.cep('invalid CEP');
+      expect(validator('12345678'), isNull);
+      expect(validator('12345-678'), isNull);
+    });
+
+    test('rejects invalid lengths and formats', () {
+      final expectedError = 'invalid CEP';
+      final validator = Validatorless.cep(expectedError);
+      expect(validator('1234567'), expectedError);
+      expect(validator('123456789'), expectedError);
+      expect(validator('1234-5678'), expectedError);
+      expect(validator('12345_678'), expectedError);
+      expect(validator('ABCDEFGH'), expectedError);
+      expect(validator('12.345-678'), expectedError);
+    });
+
+    test('accepts empty values', () {
+      final validator = Validatorless.cep('invalid CEP');
+      expect(validator(''), isNull);
+      expect(validator(null), isNull);
+    });
+  });
+
+  group('url', () {
+    test('accepts HTTP and HTTPS URLs', () {
+      final validator = Validatorless.url('invalid URL');
+      expect(validator('https://flutter.dev'), isNull);
+      expect(validator('http://example.com'), isNull);
+      expect(validator('https://www.example.com/path?q=1'), isNull);
+      expect(validator('http://localhost:8080'), isNull);
+      expect(validator('https://192.168.0.1'), isNull);
+    });
+
+    test('rejects invalid URLs', () {
+      final expectedError = 'invalid URL';
+      final validator = Validatorless.url(expectedError);
+      expect(validator('not a url'), expectedError);
+      expect(validator('ftp://example.com'), expectedError);
+      expect(validator('example.com'), expectedError);
+      expect(validator('https://'), expectedError);
+      expect(validator('javascript:alert(1)'), expectedError);
+    });
+
+    test('accepts empty values', () {
+      final validator = Validatorless.url('invalid URL');
+      expect(validator(''), isNull);
+      expect(validator(null), isNull);
+    });
+  });
+
+  group('strongPassword', () {
+    test('accepts a password that meets the default rules', () {
+      final validator = Validatorless.strongPassword('weak password');
+      expect(validator('Abcdef1!'), isNull);
+    });
+
+    test('rejects passwords missing required rules', () {
+      final expectedError = 'weak password';
+      final validator = Validatorless.strongPassword(expectedError);
+      expect(validator('Ab1!'), expectedError);
+      expect(validator('abcdef1!'), expectedError);
+      expect(validator('Abcdefgh!'), expectedError);
+      expect(validator('Abcdefg1'), expectedError);
+    });
+
+    test('respects a custom minLength', () {
+      final expectedError = 'weak password';
+      final validator =
+          Validatorless.strongPassword(expectedError, minLength: 10);
+      expect(validator('Abcdef1!'), expectedError);
+      expect(validator('Abcdefgh1!'), isNull);
+    });
+
+    test('accepts empty values', () {
+      final validator = Validatorless.strongPassword('weak password');
+      expect(validator(''), isNull);
+      expect(validator(null), isNull);
+    });
+  });
+
+  group('creditCard', () {
+    test('accepts valid card numbers', () {
+      final validator = Validatorless.creditCard('invalid card');
+      expect(validator('4111111111111111'), isNull);
+      expect(validator('5500000000000004'), isNull);
+      expect(validator('378282246310005'), isNull);
+      expect(validator('4111 1111 1111 1111'), isNull);
+      expect(validator('4111-1111-1111-1111'), isNull);
+    });
+
+    test('rejects invalid card numbers', () {
+      final expectedError = 'invalid card';
+      final validator = Validatorless.creditCard(expectedError);
+      expect(validator('4111111111111112'), expectedError);
+      expect(validator('123'), expectedError);
+      expect(validator('0000000000000000'), expectedError);
+      expect(validator('abcdefghijklmnop'), expectedError);
+    });
+
+    test('accepts empty values', () {
+      final validator = Validatorless.creditCard('invalid card');
+      expect(validator(''), isNull);
+      expect(validator(null), isNull);
+    });
+  });
+
+  group('placa', () {
+    test('accepts old and Mercosul formats', () {
+      final validator = Validatorless.placa('invalid plate');
+      expect(validator('ABC1234'), isNull);
+      expect(validator('ABC-1234'), isNull);
+      expect(validator('abc1234'), isNull);
+      expect(validator('ABC1D23'), isNull);
+      expect(validator('ABC-1D23'), isNull);
+      expect(validator('abc1d23'), isNull);
+    });
+
+    test('rejects invalid plates', () {
+      final expectedError = 'invalid plate';
+      final validator = Validatorless.placa(expectedError);
+      expect(validator('AB1234'), expectedError);
+      expect(validator('ABCD1234'), expectedError);
+      expect(validator('ABC123'), expectedError);
+      expect(validator('ABC12D3'), expectedError);
+      expect(validator('1234567'), expectedError);
+      expect(validator('AB-C1234'), expectedError);
+    });
+
+    test('accepts empty values', () {
+      final validator = Validatorless.placa('invalid plate');
+      expect(validator(''), isNull);
+      expect(validator(null), isNull);
+    });
+  });
 }

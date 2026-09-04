@@ -38,8 +38,7 @@ void main() {
               ),
               validator: Validatorless.multiple([
                 Validatorless.required('Password is required'),
-                Validatorless.min(6, 'Password must be at least 6 characters'),
-                Validatorless.max(20, 'Password must be at most 20 characters'),
+                Validatorless.strongPassword('Password is too weak'),
               ]),
             ),
             ElevatedButton(
