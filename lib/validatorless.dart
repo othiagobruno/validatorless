@@ -227,13 +227,13 @@ class Validatorless {
   /// ```dart
   /// Validatorless.phone('invalid phone')
   /// ```
-  /// The phone number must be in the format (99) 99999-9999
+  /// Accepts Brazilian mobile `(99) 99999-9999` and landline `(99) 9999-9999`.
   static FormFieldValidator<String> phone(String errorMessage) {
     return (value) {
       if (value == null) {
         return errorMessage;
       }
-      final regPhone = RegExp(r'^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$');
+      final regPhone = RegExp(r'^\([1-9]{2}\) [0-9]{4,5}-[0-9]{4}$');
       if (!regPhone.hasMatch(value)) {
         return errorMessage;
       }

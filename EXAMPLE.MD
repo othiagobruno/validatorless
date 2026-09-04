@@ -53,7 +53,7 @@ TextFormField(
   Validatorless.onlyCharacters(String)
   Validatorless.regex(RegExp, String)
   Validatorless.length(int, String)
-  Validatorless.phone(String)
+  Validatorless.phone(String) // (99) 99999-9999 or (99) 9999-9999
   Validatorless.cep(String)
   Validatorless.url(String)
   Validatorless.strongPassword(String, {int minLength})
