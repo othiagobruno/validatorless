@@ -1,0 +1,144 @@
+# Publish validatorless to pub.dev on every push to master.
+#
+# Required secret (repo Settings → Secrets and variables → Actions):
+#   PUB_CREDENTIALS_JSON
+#     Full contents of the Dart pub-credentials.json file produced by
+#     `dart pub login`. Typical locations after login:
+#       - Linux:   ~/.pub-cache/credentials.json
+#                  or ~/.config/dart/pub-credentials.json
+#       - macOS:   ~/Library/Application Support/dart/pub-credentials.json
+#
+# Do not commit credentials. The job fails immediately if this secret is missing.
+#
+# Loop safety: bump commits use `[skip ci]` (GitHub skips the new push) and we
+# only patch-bump when pubspec.yaml version did not already change vs HEAD^.
+name: Publish to pub.dev
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Bump, release, and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: Require PUB_CREDENTIALS_JSON
+        env:
+          PUB_CREDENTIALS_JSON: ${{ secrets.PUB_CREDENTIALS_JSON }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${PUB_CREDENTIALS_JSON}" ]]; then
+            echo "::error::Secret PUB_CREDENTIALS_JSON is missing or empty. Add the contents of pub-credentials.json (from dart pub login) in repo Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+
+      # Pin Dart/Flutter 2.19 / 3.7 so the runner stays inside
+      # pubspec environment sdk: ">=2.12.0 <3.0.0".
+      # setup-dart first; flutter-action last so `dart`/`flutter` on PATH
+      # include the Flutter SDK this package depends on.
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: "2.19.6"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.12"
+          channel: stable
+          cache: true
+
+      - name: Resolve version
+        id: version
+        run: bash .github/scripts/resolve_version.sh
+
+      - name: Commit version bump
+        if: steps.version.outputs.bumped == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pubspec.yaml CHANGELOG.md
+          if git diff --cached --quiet; then
+            echo "Nothing to commit after version resolve"
+            exit 0
+          fi
+          git commit -m "chore: bump version to ${{ steps.version.outputs.version }} [skip ci]"
+          git push origin HEAD:master
+
+      - name: Create git tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --tags origin "refs/tags/${VERSION}" >/dev/null; then
+            echo "Tag ${VERSION} already exists on origin"
+            exit 0
+          fi
+          git tag "${VERSION}"
+          git push origin "${VERSION}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          if gh release view "${VERSION}" >/dev/null 2>&1; then
+            echo "GitHub Release ${VERSION} already exists"
+            exit 0
+          fi
+          notes_file="$(mktemp)"
+          awk -v ver="${VERSION}" '
+            $0 ~ "^## \\[" ver "\\]" { found=1; print; next }
+            found && $0 ~ /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > "${notes_file}"
+          if [[ ! -s "${notes_file}" ]]; then
+            echo "Release ${VERSION}" > "${notes_file}"
+          fi
+          gh release create "${VERSION}" --title "${VERSION}" --notes-file "${notes_file}"
+
+      - name: Write pub.dev credentials
+        env:
+          PUB_CREDENTIALS_JSON: ${{ secrets.PUB_CREDENTIALS_JSON }}
+        run: |
+          set -euo pipefail
+          files=(
+            "${HOME}/.pub-cache/credentials.json"
+            "${HOME}/.config/dart/pub-credentials.json"
+          )
+          if [[ -n "${PUB_CACHE:-}" ]]; then
+            files+=("${PUB_CACHE}/credentials.json")
+          fi
+          for file in "${files[@]}"; do
+            mkdir -p "$(dirname "${file}")"
+            printf '%s\n' "${PUB_CREDENTIALS_JSON}" > "${file}"
+            chmod 600 "${file}"
+          done
+
+      - name: Publish to pub.dev
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          if curl -fsS "https://pub.dev/api/packages/validatorless/versions/${VERSION}" >/dev/null 2>&1; then
+            echo "validatorless ${VERSION} is already on pub.dev; skipping publish"
+            exit 0
+          fi
+          dart pub publish --force
