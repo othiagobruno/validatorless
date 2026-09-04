@@ -62,3 +62,14 @@ TextFormField(
   Validatorless.creditCard(String)
   Validatorless.placa(String)
 ```
+
+## Publishing
+
+Pushes to `master` run `.github/workflows/publish.yml`: patch-bump `pubspec.yaml` (unless the push already changed the version), append `CHANGELOG.md`, commit with `[skip ci]`, tag (`1.3.1`, no `v` prefix), create a GitHub Release, and `dart pub publish --force`.
+
+Add a repository secret named **`PUB_CREDENTIALS_JSON`** (Settings → Secrets and variables → Actions) containing the full contents of the Dart credentials file after `dart pub login`:
+
+- Linux: `~/.pub-cache/credentials.json` or `~/.config/dart/pub-credentials.json`
+- macOS: `~/Library/Application Support/dart/pub-credentials.json`
+
+Do not commit that file. The workflow fails if the secret is missing.
