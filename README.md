@@ -56,4 +56,9 @@ TextFormField(
   Validatorless.regex(RegExp, String)
   Validatorless.length(int, String)
   Validatorless.phone(String)
+  Validatorless.cep(String)
+  Validatorless.url(String)
+  Validatorless.strongPassword(String, {int minLength})
+  Validatorless.creditCard(String)
+  Validatorless.placa(String)
 ```
