@@ -33,3 +33,7 @@ This package provides a means to validate text inputs on the flutter and was ins
 ## [1.3.1] - Patch release
 
 - ci: add automated version bump and pub.dev publish on master
+
+## [1.3.2] - Patch release
+
+- fix: accept Brazilian landline numbers in Validatorless.phone
